@@ -1637,6 +1637,15 @@
     background:var(--ink);color:var(--ground);font:inherit;font-size:var(--t-sm);
     font-weight:700;cursor:pointer;min-height:44px;white-space:nowrap}
   #chatsend:hover{opacity:.9}
+  /* AI 스위치 — 기본은 꺼짐. 켜야 바깥으로 나간다 */
+  .chatai{display:flex;gap:var(--s-2);align-items:flex-start;cursor:pointer;
+    padding:var(--s-2) var(--s-3);margin:0 0 var(--s-2);
+    border:1px solid var(--line);border-radius:var(--r-2);
+    background:var(--surface-2)}
+  .chatai input{margin:2px 0 0;width:16px;height:16px;flex:none;accent-color:var(--accent)}
+  .chatai b{display:block;font-size:var(--t-xs);color:var(--ink)}
+  .chatai em{display:block;font-style:normal;font-size:var(--t-2xs);
+    color:var(--ink-3);line-height:1.5}
   /* ── 되감기 ── */
   .rew{border:1px solid var(--line);border-radius:var(--r-2);
     background:var(--surface-2);padding:var(--s-3);margin:0 0 var(--s-4)}
@@ -4836,6 +4845,16 @@
   <div id="chatthread" role="log" aria-live="polite" aria-label="문답 내용"></div>
   <p id="chatchiphd"></p>
   <div id="chatchips"></div>
+  <!-- 🔴 **AI 는 «꺼진 채»로 시작한다** (Danny 2026-08-31). 켜지 않으면 이
+       화면은 바깥으로 한 번도 안 나간다 — 「외부 요청 0건」이 기본 상태에서
+       여전히 참이다. 켜야 무료 LLM 사다리가 돈다.
+       ⚠️ 열쇠가 없는 판에서는 이 줄이 **아예 안 뜬다**(아래 JS). 켤 수 없는
+          스위치를 보여 주는 것은 「눌러도 아무 일도 안 나는 단추」와 같다. -->
+  <label id="chatai" class="chatai" hidden>
+    <input type="checkbox" id="chataion">
+    <span><b>AI 에게 직접 물어보기</b>
+      <em>끄면 미리 계산해 둔 답만 씁니다 — 바깥으로 아무것도 안 보냅니다</em></span>
+  </label>
   <form id="chatform">
     <input id="chatin" type="text" autocomplete="off" aria-label="보낼 말"
       placeholder="여기에 물어보세요 — 파일을 끌어다 놓으셔도 됩니다">
@@ -32838,7 +32857,7 @@ const CHAT = {
       "말": "● 넣은 현장(DC-G)에서 바뀐 것 1건\n   · [해소된 것] [DC-G] 케이블트레이 — 케이블트레이는 2027-08-10 이후 21일간 어느 문서에도 언급이 없습니다 (공정 단계 미상, 점검 기준 14일)\n       근거 [[2027-08-10]]\n       기준 14일이 지나도록 이 대상을 다시 적은 문서가 없습니다\n● 이 문서와 무관하게 지금 경보 10건 — 전사 화면에서 봅니다.\n⚠️ 가림이 못 잡는 것 — 넣은 글에 이런 것이 남아 있을 수 있습니다:\n   · 직함·경칭이 붙지 않고 사전에도 없는 맨 이름은 잡지 못합니다 (이름 자동 식별 기능을 아직 넣지 않았습니다)\n   · 사전에 없는 협력사·벤더 실명은 잡지 못합니다 — 맞출 패턴이 없습니다\n   · 가림이 얼마나 놓치는지는 여기서 재지 않습니다. 표본을 넣고 따로 측정할 때만 값이 나옵니다\n",
       "앞소견": 465,
       "뒤소견": 464,
-      "초": 22.3,
+      "초": 22.8,
       "가림한계": [
         "직함·경칭이 붙지 않고 사전에도 없는 맨 이름은 잡지 못합니다 (이름 자동 식별 기능을 아직 넣지 않았습니다)",
         "사전에 없는 협력사·벤더 실명은 잡지 못합니다 — 맞출 패턴이 없습니다",
@@ -32858,7 +32877,7 @@ const CHAT = {
       "말": "● 넣은 현장(DC-H)에서 바뀐 것 1건\n   · [새로 걸린 것] [DC-H] 대체 벤더 재검토 지시 — 2027-08-20 회의록 지시사항입니다 — 「대체 벤더 재검토 지시」. 이후 11일간 이행 내역이 확인되지 않았습니다\n       근거 [[2027-08-20_B]]\n       그 기간 문서에 조치·이행 기록 부재 (대상과 조치 표현이 한 줄에 함께 나온 기록을 원문에서 찾지 못했다)\n● 이 문서와 무관하게 지금 경보 10건 — 전사 화면에서 봅니다.\n⚠️ 가림이 못 잡는 것 — 넣은 글에 이런 것이 남아 있을 수 있습니다:\n   · 직함·경칭이 붙지 않고 사전에도 없는 맨 이름은 잡지 못합니다 (이름 자동 식별 기능을 아직 넣지 않았습니다)\n   · 사전에 없는 협력사·벤더 실명은 잡지 못합니다 — 맞출 패턴이 없습니다\n   · 가림이 얼마나 놓치는지는 여기서 재지 않습니다. 표본을 넣고 따로 측정할 때만 값이 나옵니다\n",
       "앞소견": 465,
       "뒤소견": 466,
-      "초": 21.8,
+      "초": 22.3,
       "가림한계": [
         "직함·경칭이 붙지 않고 사전에도 없는 맨 이름은 잡지 못합니다 (이름 자동 식별 기능을 아직 넣지 않았습니다)",
         "사전에 없는 협력사·벤더 실명은 잡지 못합니다 — 맞출 패턴이 없습니다",
@@ -32876,7 +32895,7 @@ const CHAT = {
       "말": "이 문서로 바뀐 자리는 없습니다. 소견 465건을 다시 보았습니다.\n   기준일도 그대로입니다 (2027-08-31).\n● 이 문서와 무관하게 지금 경보 10건 — 전사 화면에서 봅니다.\n⚠️ 가림이 못 잡는 것 — 넣은 글에 이런 것이 남아 있을 수 있습니다:\n   · 직함·경칭이 붙지 않고 사전에도 없는 맨 이름은 잡지 못합니다 (이름 자동 식별 기능을 아직 넣지 않았습니다)\n   · 사전에 없는 협력사·벤더 실명은 잡지 못합니다 — 맞출 패턴이 없습니다\n   · 가림이 얼마나 놓치는지는 여기서 재지 않습니다. 표본을 넣고 따로 측정할 때만 값이 나옵니다\n",
       "앞소견": 465,
       "뒤소견": 465,
-      "초": 22.2,
+      "초": 21.9,
       "가림한계": [
         "직함·경칭이 붙지 않고 사전에도 없는 맨 이름은 잡지 못합니다 (이름 자동 식별 기능을 아직 넣지 않았습니다)",
         "사전에 없는 협력사·벤더 실명은 잡지 못합니다 — 맞출 패턴이 없습니다",
@@ -32887,7 +32906,7 @@ const CHAT = {
   ],
   "코퍼스지문": "9c3779e6a3d5eb51",
   "코퍼스문서": 14670,
-  "계산시각": "2026-08-31T10:08:23",
+  "계산시각": "2026-08-31T13:50:59",
   "고른법": "돌려 보고 피드백이 제대로 나온 것을 골랐다 (사장 결재 2026-08-28). 각 샘플의 「왜」 칸이 그 이유다.",
   "서버없음": "이 화면에는 서버가 없습니다. 아래 답은 미리 계산해 둔 실제 산출이며, 목록에 없는 문서는 답할 수 없습니다."
 };
@@ -40237,6 +40256,43 @@ function drawSiteDetail(code){
   /* 🔴 `window.CHAT` 으로 찾으면 «못 찾는다» — `const` 선언은 window 에 안
         붙는다(전역 렉시컬 스코프에 있고 window 프로퍼티가 아니다). 실측으로
         잡았다: CHAT 은 3건인데 배지가 안 떴다. 이름을 직접 쓴다. */
+  /* ══ AI 사다리 (Danny 2026-08-31) ══════════════════════════════════
+     「무료 LLM 여러개를 묶어서 한도가 다다르면 다른 LLM으로 넘어가도록」
+
+     🔴 **기본은 꺼져 있다.** 사장님이 그렇게 정했다 — 켜지 않으면 이 화면은
+        **바깥으로 한 번도 안 나간다.** 「외부 요청 0건」이 기본 상태에서는
+        여전히 참이고, 능력은 켜서 보일 수 있다.
+
+     ⚠️ **열쇠는 이 파일에 없다.** 저장소와 제출 소스에는 자리표(`__LLM_KEYS__`)만
+        들어가고, **올릴 때만** 채워진다 (`build/publish_keys.py`). 열쇠가 git
+        이력에 한 번 들어가면 지워도 남는다.
+     ⚠️ **올린 화면에서는 열쇠가 보인다.** 서버가 없으니 원리적으로 그렇다.
+        그래서 ㉠ 무료 등급 전용 계정을 쓰고 ㉡ 열쇠 제한을 걸고 ㉢ 사다리를
+        여럿 두어 하나가 타도 나머지가 받게 한다.
+
+     ⚠️ **브라우저에서 못 부르는 곳이 있다** (실측 2026-08-31, 올린 주소에서).
+        NVIDIA(`integrate.api.nvidia.com`)와 Cerebras 는 `Failed to fetch` —
+        CORS 를 안 열어 뒀다. 아래 넷은 통과했다. 「무료냐」가 아니라
+        **「브라우저가 부를 수 있냐」**가 이 자리의 기준이다. */
+  /* 🔴 **열쇠는 여기 없다 — 중계가 들고 있다.**
+     처음엔 열쇠를 화면에 끼워 올리려 했는데 **GitHub 이 푸시를 막았다** —
+     `GITHUB PUSH PROTECTION — Push cannot contain secrets` (GCP 열쇠 · Groq 열쇠).
+     「허용」을 눌러 밀어 넣을 수는 있었지만, GitHub 의 비밀 검색은 **해당 업체에
+     통보**하고 Google·Groq 둘 다 그 프로그램 참여사라 **자동으로 폐기**한다.
+     밀어 넣었으면 심사 기간에 열쇠가 죽어 있었을 것이다 — 막힌 것이 다행이었다.
+
+     ⇒ 열쇠를 Cloudflare Worker 에 두고 화면은 **그 주소만** 안다.
+       주소는 비밀이 아니다. 그래서 **올린 파일과 제출 소스가 같은 바이트**로
+       돌아왔고 `README_2` 의 `curl … | shasum` 대조가 그대로 산다.
+     ⚠️ 그 중계는 «열린» 문이다 — 주소를 아는 사람은 우리 열쇠로 부를 수 있다.
+        완전히 막으려면 로그인이 필요하고 그건 이 과제 밖이다. 줄이는 방법은
+        `build/worker/risk-zero-llm.js` 머리에 적었다.
+     ⚠️ 비어 있으면 **스위치가 아예 안 뜬다** — 켤 수 없는 스위치는 「눌러도
+        아무 일 없는 단추」와 같다. */
+  var AI중계 = "";        // ← Worker 주소를 여기 넣는다 (https://….workers.dev)
+
+  var 사다리 = AI중계 ? [{이름: "AI", url: AI중계}] : [];
+
   var 샘플=(typeof CHAT!=="undefined"&&CHAT.샘플)||[];
   /* 🔴 샘플이 없으면 배지를 안 띄운다 — 눌러 보고 아무것도 못 받는 창은
         「막히는 지점 없이 끝까지 도달」의 반대다 */
@@ -40247,6 +40303,18 @@ function drawSiteDetail(code){
       chips=document.getElementById("chatchips"),
       form=document.getElementById("chatform"),
       inp=document.getElementById("chatin");
+
+  /* 켤 수 있을 때만 스위치를 보인다 — 열쇠가 없는 판(저장소·제출 소스)에서는
+     자리표가 그대로라 사다리가 비고, 그때 스위치를 보이면 **눌러도 아무 일도
+     안 나는 단추**가 된다. */
+  var AI켬 = document.getElementById("chataion");
+  if (사다리.length){
+    var 줄 = document.getElementById("chatai");
+    if (줄) 줄.hidden = false;
+    var em = 줄 && 줄.querySelector("em");
+    if (em) em.textContent = "켜면 화면에 적힌 내용을 AI 가 읽고 답합니다. "
+      + "AI 가 못 하면 미리 계산해 둔 답으로 돌아갑니다";
+  }
 
   /* 말풍선 하나. `pre` 로 넣는 것은 **엔진이 낸 말**이고 `esc` 를 지난다 —
      여기서 글을 다시 쓰지 않는다. */
@@ -40327,9 +40395,51 @@ function drawSiteDetail(code){
     답한다("「"+esc(이름)+"」 은 미리 계산해 둔 "+샘플.length+"개 문서에 없어 "+
       "답할 수 없습니다. 아래에서 골라 주십시오.");
   }
-  function 보낸다(글){
-    글=(글||"").trim(); if(!글) return;
-    붙인다("나", esc(글));
+  /* 화면이 지금 들고 있는 글. **AI 에게 이것만 준다** — 코퍼스 원문은 안 준다.
+     현장명·협력사명이 목업이어도 통째로 바깥에 보낼 값이 아니다. */
+  function 밑자료(){
+    return "다음은 건설 전사 리스크 대시보드 화면에 지금 적힌 내용이다.\n"
+         + document.body.innerText.replace(/\s+/g, " ").slice(0, 3500);
+  }
+  /* ⚠️ **시키는 말(system prompt)은 여기 없다 — 중계가 들고 있다.**
+     한때 여기 있었는데, 사다리를 중계로 옮기면서 같이 옮겼다. 두 자리에 두면
+     한쪽이 낡는다 — 이 저장소가 제일 자주 데인 무늬다. 지금은
+     `build/worker/risk-zero-llm.js` 의 `규칙` 한 자리에만 있다. */
+
+  /* 🔴 **사다리는 «중계» 안에 있다.** Groq → Gemini 를 차례로 부르는 일과
+     그때 쓰는 열쇠는 전부 Cloudflare Worker 쪽이다
+     (`build/worker/risk-zero-llm.js`). 화면이 하는 일은 물음과 «화면에 적힌
+     글»을 보내고 답을 받는 것뿐이다.
+
+     🔴 **사다리가 필요하다는 증거를 첫 시험에서 얻었다** (2026-08-31).
+        제미나이가 `503 — This model is currently experiencing high demand` 를
+        냈다. 한도도 열쇠도 문제가 아니었고 **그쪽이 잠깐 붐빈 것**이다.
+        층이 하나뿐이면 받을 곳이 없다. 지금은 Groq 이 1층에서 1초에 받는다.
+
+     ⚠️ **20초에서 끊는다.** 중계가 층마다 12초를 쓰므로 넉넉히 잡되, 대화
+        창에서 20초 넘게 기다리는 사람은 없다. 끊기면 아래 «미리 계산한 답»이
+        받는다 — **최악이 지금 상태**다.
+     ⚠️ 실패한 까닭은 화면에 안 적는다. 사람에게는 「AI 가 못 했다」면 충분하고,
+        고칠 사람은 중계 주소를 직접 열어 `내역` 을 본다. */
+  async function 사다리로(물음){
+    if (!사다리.length) return null;
+    try{
+      var ac = new AbortController();
+      var 시계 = setTimeout(function(){ ac.abort(); }, 20000);
+      var r = await fetch(사다리[0].url, {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({물음: 물음, 밑자료: 밑자료()}),
+        signal: ac.signal});
+      clearTimeout(시계);
+      if (!r.ok) return null;
+      var d = await r.json();
+      if (d && d.글 && String(d.글).trim())
+        return {글: String(d.글).trim(), 어디: d.어디 || "AI", 층수: d.층수 || 1};
+    }catch(e){ /* 미리 계산한 답으로 */ }
+    return null;
+  }
+
+  function 미리계산답(글){
     /* 이름이든 파일 이름이든 «든 것»으로 맞춘다 — 사람이 확장자까지 적지 않는다 */
     var 낮 = 글.toLowerCase();
     var 맞는것 = 샘플.filter(function(s){
@@ -40337,6 +40447,34 @@ function drawSiteDetail(code){
           || 낮.indexOf(String(s.이름).toLowerCase())>=0;
     })[0];
     맞는것 ? 보인다(맞는것) : 못한다(글);
+  }
+
+  function 보낸다(글){
+    글=(글||"").trim(); if(!글) return;
+    붙인다("나", esc(글));
+    if (!(AI켬 && AI켬.checked) || !사다리.length){ 미리계산답(글); return; }
+    var 기다림 = 붙인다("산출",
+      '<span class="chatdots"><i></i><i></i><i></i></span>');
+    사다리로(글).then(function(답){
+      if (답){
+        /* 🔴 **어디서 온 답인지 적는다.** 미리 계산한 산출과 AI 가 지은 말은
+           믿을 근거가 다르다. 안 적으면 사람이 둘을 같은 것으로 읽는다 —
+           이 저장소가 지켜 온 「근거를 대는 화면」이 거기서 무너진다. */
+        기다림.innerHTML = '<span class="who">' + esc(답.어디) + '</span>'
+          + 말그대로(답.글)
+          + '<p class="chatmeta">⚠️ 이 답은 <b>' + esc(답.어디)
+          + '</b> 이 화면 내용을 읽고 지은 말입니다(사다리 ' + 답.층수 + '층). '
+          + '<b>미리 계산해 둔 산출이 아닙니다</b> — 수가 화면과 다르면 '
+          + '화면이 맞습니다.</p>';
+      } else {
+        기다림.remove();
+        붙인다("산출", '<p class="chatmeta">AI ' + 사다리.length
+          + '곳이 모두 답을 못 했습니다(한도·망). '
+          + '<b>미리 계산해 둔 답으로 돌아갑니다.</b></p>');
+        미리계산답(글);
+      }
+      thread.scrollTop = thread.scrollHeight;
+    });
   }
 
   /* 🔴 고른 것도 **입력칸을 지나서** 나간다. 곧장 답으로 건너뛰면 「이건
